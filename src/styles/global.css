@@ -1,0 +1,104 @@
+/* Crimson Compass: portfolio expression of the brand.
+   Same logo and palette as the travel consulting brand, in a darker, technical mood. */
+:root {
+  --night: #14100F;
+  --night-2: #1C1615;
+  --night-3: #251D1B;
+  --wine: #5E1622;
+  --crimson: #7A1E2C;
+  --crimson-bright: #B23A4C;
+  --gold: #A8834A;
+  --gold-hi: #D9B97A;
+  --ivory: #F6F0E4;
+  --ink: #F3ECE0;
+  --muted: #B3A79A;
+  --line: rgba(217, 185, 122, 0.16);
+  --line-strong: rgba(217, 185, 122, 0.32);
+
+  --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --wrap: 1160px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  margin: 0;
+  background: var(--night);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* faint grain + vignette so flat black never feels empty */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(1200px 700px at 85% -10%, rgba(122, 30, 44, .28), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(168, 131, 74, .10), transparent 60%);
+}
+
+a { color: var(--gold-hi); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--ivory); }
+::selection { background: var(--crimson); color: var(--ivory); }
+:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+@media (max-width: 640px) { .wrap { padding: 0 16px; } body { font-size: 16px; } }
+
+.eyebrow {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold-hi);
+}
+h1, h2, h3 { text-wrap: balance; }
+h1, h2 { font-family: var(--serif); font-weight: 500; letter-spacing: -.01em; }
+h2 { font-size: clamp(36px, 5vw, 54px); line-height: 1.05; margin: 0; }
+h3 { font-size: 21px; line-height: 1.3; margin: 6px 0 10px; font-weight: 650; }
+em { font-style: italic; color: var(--gold-hi); }
+p { margin: 0 0 14px; }
+
+.btn {
+  --b: var(--gold);
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 20px; border-radius: 999px;
+  font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase;
+  text-decoration: none; color: var(--night);
+  background: linear-gradient(135deg, var(--gold-hi), var(--gold));
+  border: 1px solid transparent;
+  position: relative; overflow: hidden;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.btn::after { /* shimmer sweep on hover */
+  content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: skewX(-20deg); transition: left .6s var(--ease);
+}
+.btn:hover { color: var(--night); transform: translateY(-2px); box-shadow: 0 10px 30px -10px rgba(217,185,122,.5); }
+.btn:hover::after { left: 120%; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn.ghost:hover { color: var(--ivory); border-color: var(--gold-hi); box-shadow: none; }
+
+.chip {
+  font-family: var(--mono); font-size: 12px; padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,.02);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+/* reveal on scroll: hidden only once JS confirms motion is allowed */
+.js-motion [data-reveal] { opacity: 0; transform: translateY(24px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js-motion [data-reveal] { opacity: 1; transform: none; }
+}

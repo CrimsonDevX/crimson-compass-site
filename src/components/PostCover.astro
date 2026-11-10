@@ -1,0 +1,69 @@
+---
+// Generated cover art for blog posts, so every post gets a matching image
+// without any image files. Three styles: retrieval, agents, adoption.
+interface Props { kind: 'retrieval' | 'agents' | 'adoption'; seed?: string; class?: string }
+const { kind, seed = kind, class: cls = '' } = Astro.props;
+
+let s = [...seed].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 2147483647, 11) || 11;
+const rand = () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646;
+
+const W = 800, H = 450;
+const star = { x: kind === 'agents' ? 400 : 150, y: 225 };
+const nodes = Array.from({ length: 64 }, () => ({ x: 60 + rand() * 680, y: 40 + rand() * 370, r: 1.2 + rand() * 2.4 }));
+const links: [number, number][] = [];
+nodes.forEach((a, i) => {
+  nodes.map((b, j) => ({ j, d: Math.hypot(a.x - b.x, a.y - b.y) }))
+    .filter((o) => o.j > i && o.d < 95).slice(0, 2).forEach((o) => links.push([i, o.j]));
+});
+// which nodes get lit, and which get a beam from the star
+let lit: number[] = [];
+if (kind === 'retrieval') lit = nodes.map((n, i) => ({ i, d: Math.hypot(n.x - 560, n.y - 210) })).sort((a, b) => a.d - b.d).slice(0, 3).map((o) => o.i);
+if (kind === 'agents') lit = nodes.map((n, i) => ({ i, d: Math.hypot(n.x - star.x, n.y - star.y) })).filter((o) => o.d > 120).sort(() => rand() - 0.5).slice(0, 6).map((o) => o.i);
+const brightness = (n: { x: number }) => (kind === 'adoption' ? Math.max(0.12, Math.min(1, (n.x - 60) / 640)) : 0.35);
+const starPath = (x: number, y: number, R: number) => {
+  const r = R * 0.12;
+  return `M${x} ${y - R} L${x + r} ${y - r} L${x + R} ${y} L${x + r} ${y + r} L${x} ${y + R} L${x - r} ${y + r} L${x - R} ${y} L${x - r} ${y - r} Z`;
+};
+---
+<svg class:list={['post-cover', cls]} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Cover illustration: ${kind}`}>
+  <defs>
+    <radialGradient id={`bg-${seed}`} cx="0.25" cy="0.5" r="0.9">
+      <stop offset="0" stop-color="#5E1622" />
+      <stop offset="0.6" stop-color="#2A1416" />
+      <stop offset="1" stop-color="#14100F" />
+    </radialGradient>
+    <radialGradient id={`halo-${seed}`}>
+      <stop offset="0" stop-color="#D9B97A" stop-opacity=".55" />
+      <stop offset="1" stop-color="#D9B97A" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width={W} height={H} fill={`url(#bg-${seed})`} />
+  <g stroke="#D9B97A" stroke-opacity=".05">
+    {Array.from({ length: 9 }, (_, i) => <line x1={(i + 1) * 80} y1="0" x2={(i + 1) * 80} y2={H} />)}
+    {Array.from({ length: 5 }, (_, i) => <line x1="0" y1={(i + 1) * 75} x2={W} y2={(i + 1) * 75} />)}
+  </g>
+  <g stroke="#D9B97A" stroke-width="0.8">
+    {links.map(([a, b]) => (
+      <line x1={nodes[a].x} y1={nodes[a].y} x2={nodes[b].x} y2={nodes[b].y}
+        stroke-opacity={kind === 'adoption' ? brightness(nodes[a]) * 0.35 : 0.14} />
+    ))}
+  </g>
+  {lit.map((i) => (
+    <line class="beam" x1={star.x} y1={star.y} x2={nodes[i].x} y2={nodes[i].y} stroke="#D9B97A" stroke-width="1.4" stroke-opacity=".7" />
+  ))}
+  {nodes.map((n, i) => lit.includes(i) ? (
+    <g>
+      <circle cx={n.x} cy={n.y} r="22" fill={`url(#halo-${seed})`} />
+      <circle cx={n.x} cy={n.y} r={n.r + 2.2} fill="#F6F0E4" />
+    </g>
+  ) : (
+    <circle cx={n.x} cy={n.y} r={n.r} fill="#D9B97A" fill-opacity={brightness(n)} />
+  ))}
+  <circle cx={star.x} cy={star.y} r="60" fill={`url(#halo-${seed})`} opacity=".7" />
+  <path d={starPath(star.x, star.y, 34)} fill="#D9B97A" />
+  <circle cx={star.x} cy={star.y} r="2.6" fill="#7A1E2C" />
+</svg>
+
+<style>
+  .post-cover { display: block; width: 100%; height: auto; border-radius: 14px; }
+</style>

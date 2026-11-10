@@ -1,0 +1,21 @@
+{
+  "name": "crimson-compass-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "astro": "^5.18.2",
+    "gsap": "^3.15.1",
+    "lenis": "^1.3.27",
+    "three": "^0.187.0"
+  },
+  "type": "module"
+}
