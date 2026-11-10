@@ -27,7 +27,7 @@ Set `draft: true` to keep a post off the site.
 1. Create a GitHub repo (for example `crimson-compass-site`) and push this folder.
 2. Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git → pick the repo.
 3. Build settings: Framework preset **Astro**, build command `npm run build`, output folder `dist`.
-4. After the first deploy: Custom domains → add `resume.thecrimsoncompass.com`.
+4. After the first deploy: Domains → add `thecrimsoncompass.com` and `www`.
 5. Optional: turn on Web Analytics for the project.
 
 ## Where things live

@@ -1,0 +1,21 @@
+---
+// Gold 4-point sparkles that twinkle over the glowing nodes in the hero art.
+const spots = [
+  [93, 21, 18], [98, 33, 12], [83, 45, 22], [94, 57, 14], [77, 65, 16],
+  [86, 73, 26], [75, 84, 12], [68, 73, 10], [89, 90, 14], [62, 88, 9],
+];
+---
+<div class="sparkles" aria-hidden="true">
+  {spots.map(([x, y, s]) => (
+    <svg class="sparkle" style={`left:${x}%;top:${y}%;width:${s}px;height:${s}px`} viewBox="0 0 20 20">
+      <path d="M10 0 L11.6 8.4 L20 10 L11.6 11.6 L10 20 L8.4 11.6 L0 10 L8.4 8.4 Z" fill="#E9CC8C" />
+    </svg>
+  ))}
+</div>
+
+<style>
+  .sparkles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .sparkle { position: absolute; transform: translate(-50%, -50%) scale(.4); opacity: 0; filter: drop-shadow(0 0 6px rgba(233, 204, 140, .95)); }
+  @media (max-width: 900px) { .sparkles { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .sparkle { opacity: .7; transform: translate(-50%, -50%); } }
+</style>

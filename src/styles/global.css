@@ -1,19 +1,20 @@
-/* Crimson Compass: portfolio expression of the brand.
-   Same logo and palette as the travel consulting brand, in a darker, technical mood. */
+/* Crimson Compass palette in a warm, light, personal mood. */
 :root {
-  --night: #14100F;
-  --night-2: #1C1615;
-  --night-3: #251D1B;
+  --paper: #FBF7F0;
+  --card: #FFFFFF;
+  --cream: #F3ECE0;
+  --ink: #241B18;
+  --muted: #6E6259;
   --wine: #5E1622;
   --crimson: #7A1E2C;
-  --crimson-bright: #B23A4C;
-  --gold: #A8834A;
+  --crimson-soft: #F4E4E3;
+  --gold: #8C6A33;      /* gold dark enough for small text on light backgrounds */
+  --gold-mid: #A8834A;
   --gold-hi: #D9B97A;
   --ivory: #F6F0E4;
-  --ink: #F3ECE0;
-  --muted: #B3A79A;
-  --line: rgba(217, 185, 122, 0.16);
-  --line-strong: rgba(217, 185, 122, 0.32);
+  --line: rgba(122, 30, 44, 0.12);
+  --line-strong: rgba(122, 30, 44, 0.26);
+  --shadow: 0 1px 2px rgba(60, 30, 20, .05), 0 12px 32px -18px rgba(60, 30, 20, .25);
 
   --serif: 'Cormorant Garamond', 'Times New Roman', serif;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -21,7 +22,7 @@
 
   --wrap: 1160px;
   --ease: cubic-bezier(.2, .8, .2, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -31,7 +32,7 @@ html.lenis, html.lenis body { height: auto; }
 
 body {
   margin: 0;
-  background: var(--night);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
   font-size: 17px;
@@ -40,58 +41,48 @@ body {
   overflow-x: hidden;
 }
 
-/* faint grain + vignette so flat black never feels empty */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background:
-    radial-gradient(1200px 700px at 85% -10%, rgba(122, 30, 44, .28), transparent 60%),
-    radial-gradient(900px 600px at -10% 110%, rgba(168, 131, 74, .10), transparent 60%);
-}
-
-a { color: var(--gold-hi); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:hover { color: var(--ivory); }
+a { color: var(--crimson); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--wine); }
 ::selection { background: var(--crimson); color: var(--ivory); }
-:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--crimson); outline-offset: 3px; border-radius: 4px; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
 @media (max-width: 640px) { .wrap { padding: 0 16px; } body { font-size: 16px; } }
 
 .eyebrow {
   font-family: var(--mono); font-size: 12px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--gold-hi);
+  text-transform: uppercase; color: var(--crimson);
 }
 h1, h2, h3 { text-wrap: balance; }
 h1, h2 { font-family: var(--serif); font-weight: 500; letter-spacing: -.01em; }
 h2 { font-size: clamp(36px, 5vw, 54px); line-height: 1.05; margin: 0; }
 h3 { font-size: 21px; line-height: 1.3; margin: 6px 0 10px; font-weight: 650; }
-em { font-style: italic; color: var(--gold-hi); }
+em { font-style: italic; color: var(--crimson); }
 p { margin: 0 0 14px; }
 
 .btn {
-  --b: var(--gold);
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 13px 20px; border-radius: 999px;
+  padding: 13px 22px; border-radius: 999px;
   font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase;
-  text-decoration: none; color: var(--night);
-  background: linear-gradient(135deg, var(--gold-hi), var(--gold));
+  text-decoration: none; color: var(--ivory);
+  background: linear-gradient(135deg, var(--crimson), var(--wine));
   border: 1px solid transparent;
   position: relative; overflow: hidden;
   transition: transform .3s var(--ease), box-shadow .3s var(--ease);
 }
 .btn::after { /* shimmer sweep on hover */
   content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
   transform: skewX(-20deg); transition: left .6s var(--ease);
 }
-.btn:hover { color: var(--night); transform: translateY(-2px); box-shadow: 0 10px 30px -10px rgba(217,185,122,.5); }
+.btn:hover { color: var(--ivory); transform: translateY(-2px); box-shadow: 0 12px 28px -12px rgba(122,30,44,.55); }
 .btn:hover::after { left: 120%; }
-.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
-.btn.ghost:hover { color: var(--ivory); border-color: var(--gold-hi); box-shadow: none; }
+.btn.ghost { background: rgba(255,255,255,.7); color: var(--ink); border-color: var(--line-strong); backdrop-filter: blur(6px); }
+.btn.ghost:hover { color: var(--crimson); border-color: var(--crimson); box-shadow: none; }
 
 .chip {
   font-family: var(--mono); font-size: 12px; padding: 4px 10px; border-radius: 6px;
-  border: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,.02);
+  border: 1px solid var(--line); color: var(--muted); background: var(--paper);
 }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 

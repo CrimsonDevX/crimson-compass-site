@@ -14,8 +14,10 @@
   "dependencies": {
     "astro": "^5.18.2",
     "gsap": "^3.15.1",
-    "lenis": "^1.3.27",
-    "three": "^0.187.0"
+    "lenis": "^1.3.27"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "simple-icons": "^16.37.0"
+  }
 }

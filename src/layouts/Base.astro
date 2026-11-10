@@ -1,6 +1,8 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import Logo from '../components/Logo.astro';
+import ResumeModal from '../components/ResumeModal.astro';
+import Ambient from '../components/Ambient.astro';
 import '../styles/global.css';
 
 interface Props { title?: string; description?: string; }
@@ -12,7 +14,9 @@ const path = Astro.url.pathname;
 const onHome = path === '/' || path === '';
 const nav = [
   { href: onHome ? '#work' : '/#work', label: 'Work' },
+  { href: onHome ? '#about' : '/#about', label: 'About' },
   { href: onHome ? '#experience' : '/#experience', label: 'Experience' },
+  { href: onHome ? '#skills' : '/#skills', label: 'Skills' },
   { href: '/blog/', label: 'Writing' },
   { href: onHome ? '#contact' : '/#contact', label: 'Contact' },
 ];
@@ -24,7 +28,7 @@ const nav = [
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <meta name="theme-color" content="#14100F" />
+  <meta name="theme-color" content="#FBF7F0" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="canonical" href={new URL(path, Astro.site)} />
   <meta property="og:title" content={title} />
@@ -46,19 +50,17 @@ const nav = [
   <ClientRouter />
 </head>
 <body>
+  <div transition:persist="ambient"><Ambient /></div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-head" transition:persist>
     <div class="wrap head-row">
       <a class="brand" href="/" aria-label="Corey King, home">
         <Logo size={34} label="" />
-        <span class="brand-text">
-          <span class="brand-name">Corey King</span>
-          <span class="brand-sub">Crimson Compass</span>
-        </span>
+        <span class="brand-name">Corey King</span>
       </a>
       <nav class="links" aria-label="Site">
         {nav.map((n) => <a href={n.href} class:list={{ keep: n.label === 'Writing' }}>{n.label}</a>)}
-        <a class="btn btn-sm" href="/Corey_King_Resume.pdf">Resume</a>
+        <a class="btn btn-sm" href="/Corey_King_Resume.pdf" data-open-resume>Resume</a>
       </nav>
     </div>
   </header>
@@ -66,6 +68,8 @@ const nav = [
   <main id="main">
     <slot />
   </main>
+
+  <ResumeModal />
 
   <footer class="site-foot">
     <div class="wrap foot-row">
@@ -87,33 +91,34 @@ const nav = [
 </html>
 
 <style>
-  .skip { position: absolute; left: -999px; top: 8px; background: var(--gold-hi); color: var(--night); padding: 8px 12px; border-radius: 6px; z-index: 100; }
+  .skip { position: absolute; left: -999px; top: 8px; background: var(--crimson); color: var(--ivory); padding: 8px 12px; border-radius: 6px; z-index: 100; }
   .skip:focus { left: 8px; }
   .site-head {
     position: sticky; top: 0; z-index: 50;
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
-    background: rgba(20, 16, 15, .72);
+    background: rgba(251, 247, 240, .8);
     border-bottom: 1px solid var(--line);
   }
   .head-row { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
   .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
-  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-  .brand-name { font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: .02em; }
-  .brand-sub { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+  .brand-name { font-family: var(--serif); font-size: 24px; font-weight: 600; letter-spacing: .01em; }
   .links { display: flex; align-items: center; gap: 26px; }
   .links a:not(.btn) { color: var(--muted); text-decoration: none; font-size: 15px; transition: color .2s; }
-  .links a:not(.btn):hover { color: var(--ivory); }
+  .links a:not(.btn):hover { color: var(--crimson); }
+  .links a:not(.btn) { position: relative; }
+  .links a:not(.btn)::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--crimson); transform: scaleX(0); transition: transform .35s var(--ease); }
+  .links a.active { color: var(--crimson); }
+  .links a.active::after, .links a:not(.btn):hover::after { transform: scaleX(1); }
   .btn-sm { padding: 9px 16px; font-size: 12px; }
-  @media (max-width: 760px) {
+  @media (max-width: 980px) {
     .links a:not(.btn):not(.keep) { display: none; }
     .links { gap: 16px; }
-    .brand-sub { display: none; }
   }
   .site-foot { border-top: 1px solid var(--line); margin-top: 120px; padding: 32px 0; color: var(--muted); font-size: 14px; }
   .foot-row { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; }
   .foot-brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 18px; color: var(--ink); }
   .foot-links { display: flex; gap: 18px; }
   .foot-links a { color: var(--muted); text-decoration: none; }
-  .foot-links a:hover { color: var(--gold-hi); }
+  .foot-links a:hover { color: var(--crimson); }
 </style>

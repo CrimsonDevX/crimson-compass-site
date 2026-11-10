@@ -1,0 +1,78 @@
+---
+// Skill logos in brand crimson; each shows its own color on hover.
+// Logos come from Simple Icons. Tools without a logo there get a lettered tile.
+import * as si from 'simple-icons';
+
+type Skill = { name: string; icon?: string; mono?: string; color?: string };
+const icon = (key: string) => (si as any)[key] as { path: string; hex: string };
+
+const groups: { title: string; items: Skill[] }[] = [
+  { title: 'Languages and frameworks', items: [
+    { name: 'C#', mono: 'C#', color: '#68217A' },
+    { name: '.NET', icon: 'siDotnet' },
+    { name: 'Blazor', icon: 'siBlazor' },
+    { name: 'Unity', icon: 'siUnity', color: '#222222' },
+    { name: 'JavaScript', icon: 'siJavascript', color: '#C9A800' },
+    { name: 'SQL', mono: 'SQL', color: '#336791' },
+    { name: 'PowerShell', mono: 'PS', color: '#2671BE' },
+  ] },
+  { title: 'AI and cloud', items: [
+    { name: 'Azure OpenAI', mono: 'AI', color: '#0078D4' },
+    { name: 'Azure AI Search', mono: 'Az', color: '#0078D4' },
+    { name: 'Agent Framework', mono: 'AF', color: '#5C2D91' },
+    { name: 'Claude', icon: 'siClaude' },
+    { name: 'Cloudflare', icon: 'siCloudflare' },
+    { name: 'AWS S3', mono: 'S3', color: '#E25444' },
+  ] },
+  { title: 'Data and delivery', items: [
+    { name: 'SQLite', icon: 'siSqlite' },
+    { name: 'PostgreSQL', icon: 'siPostgresql' },
+    { name: 'MongoDB', icon: 'siMongodb' },
+    { name: 'Git', icon: 'siGit' },
+    { name: 'GitHub', icon: 'siGithub' },
+    { name: 'Jira', icon: 'siJira' },
+    { name: 'Jenkins', icon: 'siJenkins' },
+    { name: 'TeamCity', icon: 'siTeamcity' },
+    { name: 'Power BI', mono: 'BI', color: '#C9A100' },
+  ] },
+];
+---
+<div class="skill-groups">
+  {groups.map((g) => (
+    <div class="group" data-reveal>
+      <h3>{g.title}</h3>
+      <ul class="tiles">
+        {g.items.map((s) => {
+          const ic = s.icon ? icon(s.icon) : null;
+          const brand = s.color ?? (ic ? `#${ic.hex}` : '#7A1E2C');
+          return (
+            <li class="tile" style={`--brand:${brand}`}>
+              <span class="badge" aria-hidden="true">
+                {ic
+                  ? <svg viewBox="0 0 24 24"><path d={ic.path} /></svg>
+                  : <span class="mono">{s.mono}</span>}
+              </span>
+              <span class="name">{s.name}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<style>
+  .skill-groups { display: grid; gap: 34px; }
+  .group h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--crimson); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 14px; }
+  .tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 14px; }
+  .tile { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 10px 14px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); transition: transform .35s var(--ease), border-color .35s, box-shadow .35s; }
+  .badge { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--crimson-soft); transition: background .35s; }
+  .badge svg { width: 26px; height: 26px; fill: var(--crimson); transition: fill .35s, transform .45s var(--ease); }
+  .mono { font-family: var(--mono); font-weight: 500; font-size: 16px; color: var(--crimson); transition: color .35s; letter-spacing: -.02em; }
+  .name { font-size: 13px; color: var(--muted); text-align: center; line-height: 1.25; }
+  .tile:hover { transform: translateY(-4px); border-color: var(--brand); box-shadow: 0 18px 36px -22px var(--brand); }
+  .tile:hover .badge { background: color-mix(in srgb, var(--brand) 12%, white); }
+  .tile:hover .badge svg { fill: var(--brand); transform: scale(1.12) rotate(-4deg); }
+  .tile:hover .mono { color: var(--brand); }
+  .tile:hover .name { color: var(--ink); }
+</style>

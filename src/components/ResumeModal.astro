@@ -1,0 +1,51 @@
+---
+// Resume viewer. Any element with [data-open-resume] opens it.
+// On phones it opens the PDF directly, since mobile browsers can't scroll an embedded PDF well.
+const pdf = '/Corey_King_Resume.pdf';
+---
+<dialog class="resume-modal" aria-labelledby="resume-title" data-pdf={pdf}>
+  <div class="sheet">
+    <header class="bar">
+      <div>
+        <div id="resume-title" class="title">Corey King</div>
+        <div class="subtitle">Resume</div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-sm" href={pdf} download="Corey_King_Resume.pdf">Download PDF</a>
+        <button class="close" type="button" aria-label="Close resume" data-close-resume>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+        </button>
+      </div>
+    </header>
+    <div class="viewer"><iframe title="Corey King resume" loading="lazy"></iframe></div>
+  </div>
+</dialog>
+
+<script>
+  import { openResume, closeResume } from '../scripts/resume';
+  // one delegated listener survives page transitions
+  if (!(window as any).__resumeBound) {
+    (window as any).__resumeBound = true;
+    document.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('[data-open-resume]')) { e.preventDefault(); openResume(); }
+      else if (t.closest('[data-close-resume]')) closeResume();
+      else if (t instanceof HTMLDialogElement && t.classList.contains('resume-modal')) closeResume(); // backdrop click
+    });
+  }
+</script>
+
+<style>
+  .resume-modal { border: 0; padding: 0; background: transparent; width: min(920px, 94vw); height: min(92vh, 1100px); max-width: none; max-height: none; overflow: visible; }
+  .resume-modal::backdrop { background: rgba(36, 18, 18, .55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .sheet { height: 100%; display: flex; flex-direction: column; background: var(--paper); border-radius: 22px; overflow: hidden; box-shadow: 0 40px 100px -30px rgba(40, 10, 10, .6); border: 1px solid rgba(255,255,255,.6); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px 14px 24px; border-bottom: 1px solid var(--line); background: var(--card); }
+  .title { font-family: var(--serif); font-size: 24px; font-weight: 600; line-height: 1.1; }
+  .subtitle { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--crimson); }
+  .actions { display: flex; align-items: center; gap: 10px; }
+  .btn-sm { padding: 9px 16px; font-size: 12px; }
+  .close { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); display: grid; place-items: center; cursor: pointer; transition: background .2s, color .2s, transform .3s var(--ease); }
+  .close:hover { background: var(--crimson); color: var(--ivory); transform: rotate(90deg); }
+  .viewer { flex: 1; background: #E9E4DC; }
+  .viewer iframe { width: 100%; height: 100%; border: 0; display: block; }
+</style>
