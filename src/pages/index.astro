@@ -26,11 +26,11 @@ const projects = [
   { tag: 'Independent · 2026', title: 'Travel Advisor Trip Desk', body: 'An AI trip desk tool built in Claude for a luxury travel agency, with custom skills so the advisor runs her own AI workflows. Phase 1 was showcased to industry peers.', chips: ['Claude', 'Custom skills', 'Workflow design'] },
 ];
 const timeline = [
-  { when: 'Jun 2026 to present', title: 'Independent Software Engineer', role: 'Crimson Compass', body: 'Building AI tools on Azure and Claude: a RAG agent with Microsoft Agent Framework and Azure AI Search, and a trip desk tool for a travel agency.' },
-  { when: 'Mar 2023 to Jun 2026', title: 'Mass Virtual', role: 'Senior Software Engineer (Technical Lead) · Software Engineer III · Software Engineer II', body: 'Senior engineer on Virtual Hangar, a Unity 2024 Industry Award winner. Built the multi-user Classroom, a JSON-driven importer that cut weeks of setup to 30 seconds, and the leadership KPI platform. Ran sprint planning and biweekly releases, mentored 4 engineers, and interviewed 9+ candidates.' },
-  { when: 'Jan 2020 to Mar 2023', title: 'Vertex Solutions', role: 'Software Specialist / Programmer, AFSOC subcontractor', body: 'Built training simulation software for USAF special operations programs, plus databases and Power Apps tools that gave nontechnical users self-service access to data.' },
-  { when: '2021 to 2026', title: 'Click and Slay Studios', role: 'Co-Owner', body: 'Co-founded an indie studio and shipped a game on Steam.' },
-  { when: '2019', title: 'Columbia College Chicago', role: 'B.A. in Game Development', body: 'Senior capstone run with full agile practices.' },
+  { when: 'Jun 2026 to present', title: 'Independent Software Engineer', role: 'Crimson Compass', body: 'Building AI tools on Azure and Claude: a RAG agent with Microsoft Agent Framework and Azure AI Search, and a trip desk tool for a travel agency.', stat: '8,357', statLabel: 'achievements indexed for RAG', tech: ['C#','.NET','Azure OpenAI','AI Search','Claude'] },
+  { when: 'Mar 2023 to Jun 2026', title: 'Mass Virtual', role: 'Senior Software Engineer (Technical Lead) · Software Engineer III · Software Engineer II', body: 'Senior engineer on Virtual Hangar, a Unity 2024 Industry Award winner. Built the multi-user Classroom, a JSON-driven importer that cut weeks of setup to 30 seconds, and the leadership KPI platform. Ran sprint planning and biweekly releases, mentored 4 engineers, and interviewed 9+ candidates.', stat: '$7M+', statLabel: 'annual savings reported by USAF customers', tech: ['C#','Unity','gRPC','Power BI','Jenkins'] },
+  { when: 'Jan 2020 to Mar 2023', title: 'Vertex Solutions', role: 'Software Specialist / Programmer, AFSOC subcontractor', body: 'Built training simulation software for USAF special operations programs, plus databases and Power Apps tools that gave nontechnical users self-service access to data.', stat: '3+ yrs', statLabel: 'building for USAF special operations', tech: ['C#','Unity','SQL','Power Apps'] },
+  { when: '2021 to 2026', title: 'Click and Slay Studios', role: 'Co-Owner', body: 'Co-founded an indie studio and shipped a game on Steam.', stat: 'Steam', statLabel: 'shipped an indie game', tech: ['Unity','C#'] },
+  { when: '2019', title: 'Columbia College Chicago', role: 'B.A. in Game Development', body: 'Senior capstone run with full agile practices.', stat: 'B.A.', statLabel: 'Game Development', tech: ['Unity','Agile'] },
 ];
 const gw2Shots = [
   { src: '/img/gw2/today.webp', alt: 'GW2 helper overview with goals and today\'s daily lockouts', caption: 'Today: daily lockouts, Wizard\'s Vault, and time-gated crafts, live from my account.' },
@@ -150,10 +150,16 @@ const facts = ['Lifelong gamer', 'Golfer', 'Game developer', 'World traveler'];
       <ol class="timeline">
         {timeline.map((t) => (
           <li data-reveal>
-            <div class="when">{t.when}</div>
-            <h3>{t.title}</h3>
-            <p class="role">{t.role}</p>
-            <p>{t.body}</p>
+            <div class="job">
+              <div class="job-main">
+                <div class="when">{t.when}</div>
+                <h3>{t.title}</h3>
+                <p class="role">{t.role}</p>
+                <p>{t.body}</p>
+                {t.tech && <div class="tech">{t.tech.map((x) => <span>{x}</span>)}</div>}
+              </div>
+              {t.stat && <div class="job-stat"><b>{t.stat}</b><span>{t.statLabel}</span></div>}
+            </div>
           </li>
         ))}
       </ol>
@@ -269,6 +275,19 @@ const facts = ['Lifelong gamer', 'Golfer', 'Game developer', 'World traveler'];
   .band .role { color: #F2B8C0; }
   .band .timeline p:not(.role) { color: rgba(246,240,228,.78); }
   .band h3 { color: var(--ivory); }
+  .job { display: grid; grid-template-columns: 1fr 200px; gap: 28px; align-items: center; padding: 22px 26px; border-radius: 18px;
+    background: linear-gradient(120deg, rgba(246,240,228,.07), rgba(246,240,228,.02)); border: 1px solid rgba(217,185,122,.18);
+    backdrop-filter: blur(2px); transition: border-color .35s, transform .4s var(--ease), background .35s; }
+  .job:hover { border-color: rgba(217,185,122,.5); transform: translateX(4px); background: linear-gradient(120deg, rgba(246,240,228,.11), rgba(246,240,228,.03)); }
+  .job-main p:last-of-type { margin-bottom: 0; }
+  .job-stat { text-align: center; padding: 14px 10px; border-left: 1px solid rgba(217,185,122,.25); }
+  .job-stat b { display: block; font-family: var(--serif); font-size: 40px; font-weight: 600; line-height: 1; color: var(--gold-hi); }
+  .job-stat span { display: block; margin-top: 8px; font-size: 13px; line-height: 1.4; color: rgba(246,240,228,.7); }
+  .tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .tech span { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px; color: var(--gold-hi); border: 1px solid rgba(217,185,122,.35); background: rgba(20,10,10,.2); }
+  .band .timeline li { padding-bottom: 18px; }
+  .band .timeline li::before { top: 30px; }
+  @media (max-width: 760px) { .job { grid-template-columns: 1fr; gap: 14px; padding: 18px; } .job-stat { border-left: 0; border-top: 1px solid rgba(217,185,122,.25); text-align: left; padding: 12px 0 0; } .job-stat b { font-size: 32px; } }
   @media (max-width: 900px) { .band { background-attachment: scroll; } }
   .bearing { font-family: var(--mono); font-size: 13px; color: var(--ivory); background: var(--crimson); border-radius: 999px; padding: 3px 10px; letter-spacing: .06em; transform: translateY(-6px); }
   .sec-lede { color: var(--muted); margin-top: -14px; margin-bottom: 28px; }
