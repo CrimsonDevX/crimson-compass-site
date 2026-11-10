@@ -12,7 +12,7 @@ const nodes = [
   <div class="glow g2"></div>
   <div class="glow g3"></div>
   <svg class="graticule" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
-    <g fill="none" stroke="#7A1E2C" stroke-opacity=".075" stroke-width="1.2">
+    <g fill="none" stroke="#7A1E2C" stroke-opacity=".05" stroke-width="1.2">
       {meridians.map((m) => <ellipse cx="800" cy="500" rx={Math.abs(m) * 11 + 6} ry="720" />)}
       {parallels.map((y) => <path d={`M -100 ${y} Q 800 ${y - 90} 1700 ${y}`} />)}
     </g>
@@ -25,7 +25,12 @@ const nodes = [
 
 <style>
   .ambient { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-  .graticule { position: absolute; left: -10%; top: -10%; width: 120%; height: 120%; will-change: transform; }
+  .graticule { position: absolute; left: -10%; top: -10%; width: 120%; height: 120%; will-change: transform;
+    /* keep the reading column clear: lines only show toward the page edges */
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.6) 14%, transparent 30%, transparent 70%, rgba(0,0,0,.6) 86%, #000 100%);
+            mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.6) 14%, transparent 30%, transparent 70%, rgba(0,0,0,.6) 86%, #000 100%); }
+  /* blog posts are for reading: no lines at all, just the soft color glow */
+  :global(body.reading) .graticule { display: none; }
   .node { opacity: .35; }
   .glow { position: absolute; border-radius: 50%; filter: blur(80px); will-change: transform; }
   .g1 { width: 560px; height: 560px; left: -160px; top: 30%; background: rgba(122, 30, 44, .10); }

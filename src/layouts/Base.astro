@@ -13,6 +13,7 @@ const {
 } = Astro.props;
 const path = Astro.url.pathname;
 const onHome = path === '/' || path === '';
+const reading = /^\/blog\/.+/.test(path);
 const nav = [
   { href: onHome ? '#work' : '/#work', label: 'Work' },
   { href: onHome ? '#about' : '/#about', label: 'About' },
@@ -52,7 +53,7 @@ const nav = [
   </script>
   <ClientRouter />
 </head>
-<body>
+<body class:list={{ reading }}>
   <div transition:persist="ambient"><Ambient /></div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-head" transition:persist>
