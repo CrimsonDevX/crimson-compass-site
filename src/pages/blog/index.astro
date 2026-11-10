@@ -7,10 +7,10 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 ---
-<Base title="Writing · Corey King" description="Notes on building with AI: retrieval, agents, and helping teams adopt AI.">
+<Base title="Journal · Corey King" description="Notes on building with AI: retrieval, agents, and helping teams adopt AI.">
   <div class="wrap">
     <header class="page-head">
-      <div class="eyebrow" data-reveal>Writing</div>
+      <div class="eyebrow" data-reveal>The Journal</div>
       <h1 data-reveal data-reveal-delay="0.1">Notes from building with AI</h1>
       <p data-reveal data-reveal-delay="0.2">What works, what doesn't, and how teams can put AI to real use.</p>
     </header>

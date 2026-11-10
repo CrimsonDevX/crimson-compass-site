@@ -1,0 +1,10 @@
+---
+// A grid of icon cards. Children are <IconItem> elements.
+---
+<div class="icon-grid"><slot /></div>
+
+<style>
+  .icon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 26px 0 30px; }
+  .icon-grid > :global(:last-child:nth-child(odd)) { grid-column: 1 / -1; }
+  @media (max-width: 640px) { .icon-grid { grid-template-columns: 1fr; } }
+</style>

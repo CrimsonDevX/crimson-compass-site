@@ -9,17 +9,17 @@ interface Props { title?: string; description?: string; image?: string; }
 const {
   title = 'Corey King · Software Engineer and Applied AI',
   image = '/img/og-default.jpg',
-  description = 'Corey King builds production software in C# and .NET and retrieval-grounded AI agents on Azure. Portfolio and writing from Crimson Compass.',
+  description = 'Corey King builds production software in C# and .NET and retrieval-grounded AI agents on Azure. Portfolio and journal from Crimson Compass.',
 } = Astro.props;
 const path = Astro.url.pathname;
 const onHome = path === '/' || path === '';
 const reading = /^\/blog\/.+/.test(path);
 const nav = [
-  { href: onHome ? '#work' : '/#work', label: 'Work' },
+  { href: onHome ? '#projects' : '/#projects', label: 'Projects' },
   { href: onHome ? '#about' : '/#about', label: 'About' },
   { href: onHome ? '#experience' : '/#experience', label: 'Experience' },
   { href: onHome ? '#skills' : '/#skills', label: 'Skills' },
-  { href: '/blog/', label: 'Writing' },
+  { href: '/blog/', label: 'Journal' },
   { href: onHome ? '#contact' : '/#contact', label: 'Contact' },
 ];
 ---
@@ -63,7 +63,7 @@ const nav = [
         <span class="brand-name">Corey King</span>
       </a>
       <nav class="links" aria-label="Site">
-        {nav.map((n) => <a href={n.href} class:list={{ keep: n.label === 'Writing' }}>{n.label}</a>)}
+        {nav.map((n) => <a href={n.href} class:list={{ keep: n.label === 'Journal' }}>{n.label}</a>)}
         <a class="btn btn-sm" href="/Corey_King_Resume.pdf" data-open-resume>Resume</a>
       </nav>
     </div>

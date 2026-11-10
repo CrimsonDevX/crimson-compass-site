@@ -12,6 +12,11 @@ carousel:
   - /img/posts/my-intro-to-ai/2.webp
   - /img/posts/my-intro-to-ai/3.webp
 ---
+import IconGrid from '../../components/post/IconGrid.astro';
+import IconItem from '../../components/post/IconItem.astro';
+import Step from '../../components/post/Step.astro';
+import Compare from '../../components/post/Compare.astro';
+import Roadmap from '../../components/post/Roadmap.astro';
 
 Wow. It's been a few years already.
 
@@ -23,44 +28,64 @@ It's okay. I'm here to help.
 
 That shift is what this series is about. I'm a software engineer, and I've spent the last few years building with AI and, honestly, living with it. I want to share what I've learned in plain language, one post at a time.
 
+---
+
 ## How I use AI every day
 
 Here's the part people don't expect. My most valuable AI use isn't at work. It's in my everyday life. I use Claude and ChatGPT every single day for things like:
 
-- **Internet searches.** Instead of opening ten tabs, I ask a question and get an answer with sources I can check.
-- **Grocery lists.** I tell it what I want to cook this week, and it builds the list for me.
-- **Finding deals nearby.** Before I head out, I have it look for discounts at stores around me.
-- **Tech support at home.** When the TV refused to connect to the internet, AI walked me through the fix step by step.
-- **Saying what I mean.** It helps me articulate my thoughts more clearly before I hit send.
+<IconGrid>
+  <IconItem icon="search" title="Internet searches">Instead of opening ten tabs, I ask a question and get an answer with sources I can check.</IconItem>
+  <IconItem icon="cart" title="Grocery lists">I tell it what I want to cook this week, and it builds the list for me.</IconItem>
+  <IconItem icon="tag" title="Finding deals nearby">Before I head out, I have it look for discounts at stores around me.</IconItem>
+  <IconItem icon="tv" title="Tech support at home">When the TV refused to connect to the internet, AI walked me through the fix step by step.</IconItem>
+  <IconItem icon="chat" title="Saying what I mean">It helps me articulate my thoughts more clearly before I hit send.</IconItem>
+</IconGrid>
 
 None of these are flashy. That's the point. Small wins every day add up to hours back every week.
 
+---
+
 ## Three habits that made it click
 
-### 1. Prompt it like you'd brief a coworker
+<Step n={1} title="Prompt it like you'd brief a coworker" icon="chat">
 
-AI can do a lot, as long as you prompt it right. "Make a grocery list" gets you a generic list. "Make a grocery list for four dinners this week, I have chicken and rice already, and I want to keep it under $60" gets you something you can actually use. Context is everything.
+AI can do a lot, as long as you prompt it right. Context is everything.
 
-### 2. Use the right tool for the right task
+<Compare weak="Make a grocery list." strong="Make a grocery list for four dinners this week. I have chicken and rice already, and I want to keep it under $60." />
+
+</Step>
+
+<Step n={2} title="Use the right tool for the right task" icon="tool">
 
 Not every AI is good at everything. Some are better at writing, some at research, some at working with your files or your code. Learning which tool fits which job is one of the biggest upgrades you can make.
 
-### 3. Don't just use one. Use them all!
+</Step>
+
+<Step n={3} title="Don't just use one. Use them all!" icon="layers">
 
 When one gets stuck, ask another. Compare their answers. Treat them like a team of assistants, each with its own strengths, instead of one oracle with all the answers.
+
+</Step>
+
+---
 
 ## It's okay if you think differently
 
 I'm a nerd, I know it. The way I think might not be the way you think, and that's okay. That's the best part about this technology: it meets you where you are. You don't have to become a programmer to get real value from it. You just have to be curious and willing to try.
 
+---
+
 ## Where this journey is going
 
 I won't post every day, but you can expect a couple of posts a week. Coming up next:
 
-- **My daily AI habits:** the small routines that save me time every day
-- **Making the Claude app work for you:** setting it up around your life, not the other way around
-- **Discovering RAG with the Guild Wars 2 API:** what I learned teaching AI to answer from real data instead of guessing
-- **And much more**
+<Roadmap items={[
+  { title: 'My daily AI habits', text: 'The small routines that save me time every day' },
+  { title: 'Making the Claude app work for you', text: 'Setting it up around your life, not the other way around' },
+  { title: 'Discovering RAG with the Guild Wars 2 API', text: 'What I learned teaching AI to answer from real data instead of guessing' },
+  { title: 'And much more' },
+]} />
 
 If there's something you want me to cover, reach out on LinkedIn. I'd love to hear what you're curious about.
 

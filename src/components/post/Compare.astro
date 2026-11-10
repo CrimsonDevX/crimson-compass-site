@@ -1,0 +1,28 @@
+---
+// Side-by-side "weak vs strong" example, e.g. two prompts.
+interface Props { weak: string; strong: string; weakLabel?: string; strongLabel?: string }
+const { weak, strong, weakLabel = 'Generic', strongLabel = 'With context' } = Astro.props;
+---
+<div class="compare">
+  <div class="side weak">
+    <span class="label"><span class="mark">✕</span>{weakLabel}</span>
+    <p>“{weak}”</p>
+  </div>
+  <div class="side strong">
+    <span class="label"><span class="mark">✓</span>{strongLabel}</span>
+    <p>“{strong}”</p>
+  </div>
+</div>
+
+<style>
+  .compare { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; margin: 14px 0 4px; }
+  .side { padding: 14px 16px; border-radius: 14px; }
+  .weak { background: var(--cream); border: 1px dashed var(--line-strong); }
+  .strong { background: linear-gradient(145deg, #fff, var(--crimson-soft)); border: 1px solid var(--crimson); }
+  .label { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .strong .label { color: var(--crimson); }
+  .mark { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; background: var(--line); color: var(--muted); }
+  .strong .mark { background: var(--crimson); color: var(--ivory); }
+  p { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: #3A302B; font-style: italic; }
+  @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
+</style>
