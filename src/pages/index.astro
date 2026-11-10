@@ -6,7 +6,7 @@ import PostCover from '../components/PostCover.astro';
 import Sparkles from '../components/Sparkles.astro';
 import SkillGrid from '../components/SkillGrid.astro';
 import Gallery from '../components/Gallery.astro';
-import { siGithub } from 'simple-icons';
+import { siGithub, siAnthropic } from 'simple-icons';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -168,10 +168,32 @@ const facts = ['Lifelong gamer', 'Golfer', 'Game developer', 'World traveler'];
     <section id="skills" class="block">
       <div class="sec-head" data-reveal><span class="bearing">04</span><h2>Skills and training</h2><span class="rule" aria-hidden="true"></span></div>
       <SkillGrid />
-      <div class="training">
-        <div class="card" data-reveal><h3>Microsoft Learn</h3><p>Develop generative AI apps in Azure (learning path, 2026). <a href="https://learn.microsoft.com/en-us/users/coreyking-0001/" target="_blank" rel="noopener">View my Learn profile</a></p></div>
-        <div class="card" data-reveal><h3>Anthropic Claude Academy</h3><p>Claude Code in Action, Claude Platform 101, Claude Code 101, AI Capabilities and Limitations (2026)</p></div>
-        <div class="card" data-reveal><h3>Practices</h3><p>RAG and hybrid search, multi-user networking and state sync, REST and gRPC, Agile and Scrum, code review, mentoring</p></div>
+      <div class="training-group" data-reveal>
+        <h3 class="group-title">Certifications and training</h3>
+        <div class="certs">
+          <a class="cert" href="https://learn.microsoft.com/en-us/users/coreyking-0001/" target="_blank" rel="noopener">
+            <span class="cert-badge ms" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="9.5" height="9.5"/><rect x="12.5" y="2" width="9.5" height="9.5"/><rect x="2" y="12.5" width="9.5" height="9.5"/><rect x="12.5" y="12.5" width="9.5" height="9.5"/></svg></span>
+            <div class="cert-body">
+              <span class="cert-org">Microsoft Learn · 2026</span>
+              <b>Develop generative AI apps in Azure</b>
+              <span class="cert-type">Learning path</span>
+              <span class="cert-link">View my Learn profile →</span>
+            </div>
+          </a>
+          <div class="cert">
+            <span class="cert-badge an" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={siAnthropic.path} /></svg></span>
+            <div class="cert-body">
+              <span class="cert-org">Anthropic Claude Academy · 2026</span>
+              <b>Claude Code and Claude Platform</b>
+              <span class="cert-type">4 courses</span>
+              <div class="cert-list">{['Claude Code in Action', 'Claude Platform 101', 'Claude Code 101', 'AI Capabilities and Limitations'].map((c) => <span>{c}</span>)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="training-group" data-reveal>
+        <h3 class="group-title">Practices</h3>
+        <div class="practices">{['RAG and hybrid search', 'Agent tool design', 'Multi-user networking and state sync', 'REST and gRPC', 'Agile and Scrum', 'Code review', 'Mentoring'].map((x) => <span>{x}</span>)}</div>
       </div>
     </section>
 
@@ -340,9 +362,26 @@ const facts = ['Lifelong gamer', 'Golfer', 'Game developer', 'World traveler'];
   .role { color: var(--crimson); font-size: 15px; margin-bottom: 8px; }
   .timeline p:not(.role) { color: var(--muted); max-width: 760px; }
 
-  .training { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
-  .training h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--crimson); text-transform: uppercase; letter-spacing: .08em; margin-top: 0; }
-  @media (max-width: 900px) { .training { grid-template-columns: 1fr; } }
+  .training-group { margin-top: 34px; }
+  .group-title { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--crimson); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 14px; }
+  .certs { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .cert { display: grid; grid-template-columns: 58px 1fr; gap: 18px; align-items: start; padding: 22px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); text-decoration: none; color: var(--ink); position: relative; overflow: hidden; transition: transform .4s var(--ease), border-color .3s, box-shadow .4s; }
+  .cert::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(var(--crimson), var(--gold-mid)); }
+  .cert:hover { transform: translateY(-4px); border-color: var(--line-strong); box-shadow: 0 24px 50px -28px rgba(122,30,44,.45); color: var(--ink); }
+  .cert-badge { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; background: var(--crimson-soft); }
+  .cert-badge svg { width: 28px; height: 28px; fill: var(--crimson); transition: fill .35s; }
+  .cert:hover .ms svg rect:nth-child(1) { fill: #F25022; } .cert:hover .ms svg rect:nth-child(2) { fill: #7FBA00; }
+  .cert:hover .ms svg rect:nth-child(3) { fill: #00A4EF; } .cert:hover .ms svg rect:nth-child(4) { fill: #FFB900; }
+  .cert:hover .an svg { fill: #191919; }
+  .cert-body { display: flex; flex-direction: column; gap: 4px; }
+  .cert-org { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+  .cert-body b { font-size: 18px; line-height: 1.3; }
+  .cert-type { font-size: 14px; color: var(--muted); }
+  .cert-link { margin-top: 6px; font-size: 14px; color: var(--crimson); }
+  .cert-list, .practices { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .cert-list span, .practices span { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); color: var(--muted); }
+  .practices span { font-size: 13px; padding: 6px 12px; background: var(--card); }
+  @media (max-width: 900px) { .certs { grid-template-columns: 1fr; } }
 
   .social { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 26px; }
   .social a { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-size: 14px; transition: color .25s, transform .25s var(--ease); }
