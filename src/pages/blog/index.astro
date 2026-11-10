@@ -17,9 +17,9 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'nu
     <div class="list">
       {posts.map((p) => (
         <a class="row" href={`/blog/${p.id}/`} data-reveal>
-          <div class="art" transition:name={`cover-${p.id}`}><PostCover kind={p.data.cover} seed={p.id} /></div>
+          <div class="art" transition:name={`cover-${p.id}`}>{p.data.image ? <img class="card-img" src={p.data.image} alt="" loading="lazy" width="1200" height="630" /> : <PostCover kind={p.data.cover} seed={p.id} />}</div>
           <div>
-            <div class="meta">{fmt(p.data.date)} · {p.data.tags.join(' · ')}</div>
+            <div class="meta">{p.data.series ? `${p.data.series} · Part ${p.data.part} · ` : ''}{fmt(p.data.date)}</div>
             <h2>{p.data.title}</h2>
             <p>{p.data.description}</p>
             <span class="read">Read →</span>
@@ -38,8 +38,9 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'nu
   .row { display: grid; grid-template-columns: 420px 1fr; gap: 36px; align-items: center; padding: 22px; border: 1px solid var(--line); border-radius: 20px; text-decoration: none; color: var(--ink); background: var(--card); box-shadow: var(--shadow); transition: border-color .3s, transform .4s var(--ease); }
   .row:hover { border-color: var(--line-strong); transform: translateY(-3px); }
   .art { overflow: hidden; border-radius: 14px; }
-  .art :global(svg) { transition: transform .8s var(--ease); }
-  .row:hover .art :global(svg) { transform: scale(1.04); }
+  .art :global(svg), .art .card-img { transition: transform .8s var(--ease); }
+  .art .card-img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .row:hover .art :global(svg), .row:hover .art .card-img, .post-card:hover .post-art .card-img { transform: scale(1.04); }
   .meta { font-family: var(--mono); font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: .06em; }
   h2 { font-size: clamp(30px, 3.4vw, 40px); margin: 8px 0 10px; }
   .row p { color: var(--muted); }

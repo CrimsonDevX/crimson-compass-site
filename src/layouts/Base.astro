@@ -5,9 +5,10 @@ import ResumeModal from '../components/ResumeModal.astro';
 import Ambient from '../components/Ambient.astro';
 import '../styles/global.css';
 
-interface Props { title?: string; description?: string; }
+interface Props { title?: string; description?: string; image?: string; }
 const {
   title = 'Corey King · Software Engineer and Applied AI',
+  image = '/img/og-default.jpg',
   description = 'Corey King builds production software in C# and .NET and retrieval-grounded AI agents on Azure. Portfolio and writing from Crimson Compass.',
 } = Astro.props;
 const path = Astro.url.pathname;
@@ -34,6 +35,8 @@ const nav = [
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content={new URL(image, Astro.site)} />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;650&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />

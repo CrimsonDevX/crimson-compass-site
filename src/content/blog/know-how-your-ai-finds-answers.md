@@ -4,6 +4,7 @@ description: Two projects, one lesson. Building retrieval yourself with RAG, and
 date: 2026-11-10
 tags: [RAG, Azure, AI adoption]
 cover: retrieval
+draft: true
 ---
 
 Most people use AI like a smarter search bar. The real value shows up when you understand how it finds its answers.

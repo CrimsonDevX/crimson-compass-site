@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PostCover from '../../components/PostCover.astro';
+import Carousel from '../../components/Carousel.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -11,13 +12,16 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 ---
-<Base title={`${post.data.title} · Corey King`} description={post.data.description}>
+<Base title={`${post.data.title} · Corey King`} description={post.data.description} image={post.data.image}>
   <article class="wrap post">
     <a class="back" href="/blog/">← All writing</a>
+    {post.data.series && <div class="series">{post.data.series}{post.data.part ? ` · Part ${post.data.part}` : ''}</div>}
     <div class="meta">{fmt(post.data.date)} · {post.data.tags.join(' · ')}</div>
     <h1>{post.data.title}</h1>
     <p class="dek">{post.data.description}</p>
-    <div class="cover" transition:name={`cover-${post.id}`}><PostCover kind={post.data.cover} seed={post.id} /></div>
+    {post.data.carousel
+      ? <Carousel slides={post.data.carousel} title={post.data.title} />
+      : <div class="cover" transition:name={`cover-${post.id}`}><PostCover kind={post.data.cover} seed={post.id} /></div>}
     <div class="prose"><Content /></div>
     <footer class="sign">
       <p>Written by Corey King, software engineer and founder of Crimson Compass.</p>
@@ -28,6 +32,8 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'nu
 
 <style>
   .post { max-width: 820px; padding-top: 60px; }
+  .series { display: inline-block; margin-top: 34px; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ivory); background: var(--crimson); padding: 5px 12px; border-radius: 999px; }
+  .series + .meta { margin-top: 14px; }
   .back { font-family: var(--mono); font-size: 13px; text-decoration: none; text-transform: uppercase; letter-spacing: .08em; }
   .meta { font-family: var(--mono); font-size: 12px; color: var(--crimson); text-transform: uppercase; letter-spacing: .06em; margin-top: 36px; }
   h1 { font-size: clamp(40px, 6vw, 68px); line-height: 1.02; margin: 12px 0 16px; }
@@ -35,11 +41,16 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'nu
   .cover { margin: 36px 0 46px; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
   .prose { font-size: 18px; line-height: 1.75; }
   .prose :global(h2) { font-size: 34px; margin: 48px 0 14px; }
+  .prose :global(ul) { padding-left: 22px; margin: 0 0 22px; }
+  .prose :global(li) { margin: 8px 0; color: #3A302B; }
+  .prose :global(li::marker) { color: var(--crimson); }
   .prose :global(p) { margin-bottom: 20px; color: #3A302B; }
   .prose :global(strong) { color: var(--crimson); font-weight: 600; }
   .prose :global(code) { font-family: var(--mono); font-size: .88em; background: var(--cream); padding: 2px 6px; border-radius: 5px; }
   .prose :global(pre) { background: var(--card) !important; border: 1px solid var(--line); border-radius: 12px; padding: 18px; overflow-x: auto; font-size: 14px; }
-  .prose :global(blockquote) { margin: 28px 0; padding-left: 20px; border-left: 3px solid var(--crimson); color: var(--muted); font-style: italic; }
+  .prose :global(blockquote) { margin: 36px 0; padding: 22px 28px; border-left: 4px solid var(--crimson); border-radius: 0 16px 16px 0; background: var(--crimson-soft); }
+  .prose :global(blockquote p) { margin: 0; font-family: var(--serif); font-size: 28px; line-height: 1.3; color: var(--wine); font-style: italic; }
+  .prose :global(h3) { font-size: 20px; margin: 30px 0 8px; color: var(--crimson); }
   .sign { margin-top: 60px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; color: var(--muted); }
   .sign p { margin: 0; }
 </style>

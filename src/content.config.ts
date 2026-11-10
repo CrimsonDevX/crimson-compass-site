@@ -11,6 +11,10 @@ const blog = defineCollection({
     tags: z.array(z.string()).default([]),
     cover: z.enum(['retrieval', 'agents', 'adoption']).default('retrieval'),
     draft: z.boolean().default(false),
+    series: z.string().optional(),
+    part: z.number().optional(),
+    image: z.string().optional(),       // link preview + card image, e.g. /img/posts/<slug>/share.jpg
+    carousel: z.array(z.string()).optional(), // LinkedIn carousel slides shown in the post
   }),
 });
 
