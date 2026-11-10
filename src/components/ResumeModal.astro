@@ -26,12 +26,16 @@ const pdf = '/Corey_King_Resume.pdf';
   // one delegated listener survives page transitions
   if (!(window as any).__resumeBound) {
     (window as any).__resumeBound = true;
+    // capture phase: runs before the page router, so the PDF never replaces the page
     document.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
-      if (t.closest('[data-open-resume]')) { e.preventDefault(); openResume(); }
+      if (t.closest('[data-open-resume]')) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return; // let modifier clicks open a tab as usual
+        e.preventDefault(); e.stopPropagation(); openResume(); return;
+      }
       else if (t.closest('[data-close-resume]')) closeResume();
       else if (t instanceof HTMLDialogElement && t.classList.contains('resume-modal')) closeResume(); // backdrop click
-    });
+    }, true);
   }
 </script>
 

@@ -64,7 +64,7 @@ const nav = [
       </a>
       <nav class="links" aria-label="Site">
         {nav.map((n) => <a href={n.href} class:list={{ keep: n.label === 'Journal' }}>{n.label}</a>)}
-        <a class="btn btn-sm" href="/Corey_King_Resume.pdf" data-open-resume>Resume</a>
+        <a class="btn btn-sm" href="/Corey_King_Resume.pdf" target="_blank" rel="noopener" data-astro-reload data-open-resume>Resume</a>
       </nav>
     </div>
   </header>

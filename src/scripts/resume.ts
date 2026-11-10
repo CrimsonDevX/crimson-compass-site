@@ -1,14 +1,14 @@
 import { gsap } from 'gsap';
 
 const modal = () => document.querySelector<HTMLDialogElement>('.resume-modal');
-const smallScreen = () => matchMedia('(max-width: 700px), (hover: none)').matches;
+const smallScreen = () => matchMedia('(max-width: 700px), (hover: none) and (pointer: coarse)').matches;
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function openResume() {
   const dlg = modal();
   if (!dlg) return;
   const pdf = dlg.dataset.pdf!;
-  if (smallScreen()) { window.open(pdf, '_blank', 'noopener'); return; }
+  if (smallScreen()) { window.open(pdf, '_blank', 'noopener'); return; } // phones: new tab, page stays put
 
   const frame = dlg.querySelector('iframe')!;
   if (!frame.src) frame.src = `${pdf}#view=FitH&toolbar=0`;
