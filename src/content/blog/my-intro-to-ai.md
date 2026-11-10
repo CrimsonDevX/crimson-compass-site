@@ -11,7 +11,6 @@ carousel:
   - /img/posts/my-intro-to-ai/1.webp
   - /img/posts/my-intro-to-ai/2.webp
   - /img/posts/my-intro-to-ai/3.webp
-  - /img/posts/my-intro-to-ai/4.webp
 ---
 
 Wow. It's been a few years already.
